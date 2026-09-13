@@ -18,8 +18,8 @@ O projeto segue uma abordagem de desenvolvimento progressivo, dividido em 4 entr
 
 ## 🔗 Links de Entrega (AC1)
 
-* **Quadro Kanban (Trello):** (https://trello.com/b/SlIi1beO/projeto-power-bi-analise-de-vendas-2026)
-* **Vídeo de Apresentação (AC1):** [Cole aqui o link do vídeo do YouTube/Drive]
+* **Quadro Kanban (Trello):** [https://trello.com/b/SlIi1beO/projeto-power-bi-analise-de-vendas-2026]
+* **Vídeo de Apresentação (AC1):** [https://youtu.be/AXUBUhVzsr0]
 
 ## 📁 Estrutura do Repositório (Fase AC1)
 
