@@ -1,10 +1,10 @@
-# 🧮 Medidas DAX — Sprint AC1
+# 🧮 Medidas DAX — Sprint AC2
 
-Medidas criadas no Power BI para a primeira entrega do projeto (página "Visão Geral"). DAX é a linguagem de fórmulas do modelo de dados do Power BI — equivalente, em espírito, a criar fórmulas no Excel, mas aplicada diretamente sobre as tabelas do modelo.
-
-As medidas das próximas sprints (AC2, AC3 e Final) serão documentadas aqui progressivamente, conforme forem desenvolvidas.
+Medidas do modelo de dados do Power BI, documentadas por sprint. Nesta entrega, adicionei a página "Vendedores", com duas medidas novas de participação e ranking.
 
 ---
+
+## Sprint AC1 — Visão Geral
 
 ### Valor Vendas
 ```DAX
@@ -28,4 +28,23 @@ Contagem de notas fiscais distintas — usada como proxy do número de vendas re
 ```DAX
 Ticket Médio = DIVIDE([Valor Vendas], [Qtd Notas Fiscais])
 ```
-Valor médio por venda. Optei por `DIVIDE` em vez do operador `/` porque a função já trata o caso de divisão por zero, evitando erro quando o filtro atual não retorna nenhuma nota fiscal.
+Valor médio por venda. Optei por `DIVIDE` em vez do operador `/` porque a função já trata o caso de divisão por zero.
+
+---
+
+## Sprint AC2 — Vendedores
+
+### % Participação Vendedor
+```DAX
+% Participação Vendedor = DIVIDE([Valor Vendas], CALCULATE([Valor Vendas], ALL(Dim_Vendedor)))
+```
+Calcula a fatia, em porcentagem, que cada vendedor representa do total vendido pela empresa. O `CALCULATE` com `ALL(Dim_Vendedor)` remove o filtro de vendedor só no denominador, mantendo o total geral como referência.
+
+### Ranking Vendedor
+```DAX
+Ranking Vendedor = RANKX(ALL(Dim_Vendedor[Vendedor]), [Valor Vendas],, DESC)
+```
+Ordena os vendedores do que mais vendeu para o que menos vendeu. Usei essa medida em conjunto com o gráfico de ranking e a matriz Supervisor → Vendedor da página "Vendedores".
+
+---
+As medidas das próximas sprints (AC3 e Final) serão documentadas aqui progressivamente.
