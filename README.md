@@ -12,16 +12,17 @@ O projeto segue uma abordagem de desenvolvimento progressivo, dividido em 4 entr
 | Entrega | Data Limite | Escopo da Sprint | Status |
 | :--- | :--- | :--- | :--- |
 | **AC1** | 14/09 | Modelo de Dados e Dashboard "Visão Geral" | ✅ **Concluído** |
-| **AC2** | 13/10 | Visão detalhada de Vendedores | ⏳ A desenvolver |
+| **AC2** | 13/10 | Visão detalhada de Vendedores | ✅ **Concluído** |
 | **AC3** | 08/11 | Análise de Produtos e Lucratividade | ⏳ A desenvolver |
 | **Final**| 22/11 | Painel Consolidado Completo | ⏳ A desenvolver |
 
-## 🔗 Links de Entrega (AC1)
+## 🔗 Links de Entrega (AC1 e AC2)
 
 * **Quadro Kanban (Trello):** [https://trello.com/b/SlIi1beO/projeto-power-bi-analise-de-vendas-2026]
 * **Vídeo de Apresentação (AC1):** [https://youtu.be/AXUBUhVzsr0]
+* **Vídeo de Apresentação (AC2):** [link do vídeo novo]
 
-## 📁 Estrutura do Repositório (Fase AC1)
+## 📁 Estrutura do Repositório (Fase AC2)
 
 * `/data` -> Arquivos de origem (Planilhas Excel).
 * `/powerbi` -> Contém o arquivo `.pbix` do Dashboard e a documentação das medidas `DAX` criadas nesta Sprint.
