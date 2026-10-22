@@ -13,7 +13,7 @@ O projeto segue uma abordagem de desenvolvimento progressivo, dividido em 4 entr
 | :--- | :--- | :--- | :--- |
 | **AC1** | 14/09 | Modelo de Dados e Dashboard "Visão Geral" | ✅ **Concluído** |
 | **AC2** | 13/10 | Visão detalhada de Vendedores | ✅ **Concluído** |
-| **AC3** | 08/11 | Análise de Produtos e Lucratividade | ⏳ A desenvolver |
+| **AC3** | 08/11 | Análise de Produtos e Lucratividade | ✅ **Concluído** |
 | **Final**| 22/11 | Painel Consolidado Completo | ⏳ A desenvolver |
 
 ## 🔗 Links de Entrega (AC1, AC2 e AC3)
