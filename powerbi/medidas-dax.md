@@ -1,6 +1,6 @@
-# 🧮 Medidas DAX — Sprint AC2
+# 🧮 Medidas DAX — Sprint AC3
 
-Medidas do modelo de dados do Power BI, documentadas por sprint. Nesta entrega, adicionei a página "Vendedores", com duas medidas novas de participação e ranking.
+Medidas do modelo de dados do Power BI, documentadas por sprint. Nesta entrega, adicionei a página "Produtos e Margem", com três medidas novas de custo e rentabilidade.
 
 ---
 
@@ -47,4 +47,26 @@ Ranking Vendedor = RANKX(ALL(Dim_Vendedor[Vendedor]), [Valor Vendas],, DESC)
 Ordena os vendedores do que mais vendeu para o que menos vendeu. Usei essa medida em conjunto com o gráfico de ranking e a matriz Supervisor → Vendedor da página "Vendedores".
 
 ---
-As medidas das próximas sprints (AC3 e Final) serão documentadas aqui progressivamente.
+
+## Sprint AC3 — Produtos e Margem
+
+### Custo Total
+```DAX
+Custo Total = SUMX(Fato_Vendas, Fato_Vendas[Quantidade] * RELATED(Dim_Produto[CustoUnitario]))
+```
+Segue a mesma lógica de Valor Vendas, mas usando o custo unitário do produto (`RELATED` busca esse valor na tabela Dim_Produto) em vez do preço de venda — representa quanto a empresa gastou nos produtos vendidos.
+
+### Margem
+```DAX
+Margem = [Valor Vendas] - [Custo Total]
+```
+Lucro bruto: valor vendido menos o custo dos produtos.
+
+### % Margem
+```DAX
+% Margem = DIVIDE([Margem], [Valor Vendas])
+```
+Percentual do valor vendido que se converteu em lucro. Usei essa medida no TreeMap e nos cartões de KPI da página "Produtos e Margem".
+
+---
+As medidas da entrega final serão documentadas aqui progressivamente.
