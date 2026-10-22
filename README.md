@@ -16,13 +16,14 @@ O projeto segue uma abordagem de desenvolvimento progressivo, dividido em 4 entr
 | **AC3** | 08/11 | Análise de Produtos e Lucratividade | ⏳ A desenvolver |
 | **Final**| 22/11 | Painel Consolidado Completo | ⏳ A desenvolver |
 
-## 🔗 Links de Entrega (AC1 e AC2)
+## 🔗 Links de Entrega (AC1, AC2 e AC3)
 
 * **Quadro Kanban (Trello):** [https://trello.com/b/SlIi1beO/projeto-power-bi-analise-de-vendas-2026]
 * **Vídeo de Apresentação (AC1):** [https://youtu.be/AXUBUhVzsr0]
 * **Vídeo de Apresentação (AC2):** [https://www.youtube.com/watch?v=iFOm7n1S6bU]
+* **Vídeo de Apresentação (AC3):** [https://www.youtube.com/watch?v=t_1ykKSvHPg]
 
-## 📁 Estrutura do Repositório (Fase AC2)
+## 📁 Estrutura do Repositório (Fase AC3)
 
 * `/data` -> Arquivos de origem (Planilhas Excel).
 * `/powerbi` -> Contém o arquivo `.pbix` do Dashboard e a documentação das medidas `DAX` criadas nesta Sprint.
