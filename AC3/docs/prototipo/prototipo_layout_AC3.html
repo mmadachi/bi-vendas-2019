@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Protótipo de layout (mockup) — páginas até a AC3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0E161F; --panel:#16202B; --panel-2:#131C26; --border:#26333F;
+    --text:#E9EDF1; --text-muted:#8C98A5; --text-faint:#5C6874;
+    --gold:#D9A441; --teal:#4FB3A6; --blue:#5B8DEF; --purple:#9B8CDA; --danger:#C4604F;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans','Segoe UI',sans-serif;}
+  body{padding:32px 40px 60px; min-height:100vh;}
+  .wrap{max-width:1240px;margin:0 auto;}
+  header{border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:20px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--gold);font-weight:600;margin:0 0 8px;}
+  h1{font-size:24px;margin:0 0 6px;font-weight:600;letter-spacing:-.01em;}
+  .sub{color:var(--text-muted);font-size:13.5px;margin:0;max-width:700px;line-height:1.5;}
+
+  .tabbar{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+  .tabbtn{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-muted);background:var(--panel);
+    border:1px solid var(--border);border-radius:6px;padding:10px 18px;cursor:pointer;transition:all .2s;}
+  .tabbtn:hover{color:var(--text);border-color:#3A4A59;}
+  .tabbtn.active{color:#12181F;background:var(--gold);border-color:var(--gold);font-weight:600;}
+
+  .page{display:none;}
+  .page.active{display:block;}
+
+  .chip-group{display:flex;gap:8px;margin-bottom:16px;}
+  .chip{font-family:'IBM Plex Sans';font-size:13px;color:var(--text-muted);background:var(--panel);border:1px solid var(--border);
+    border-radius:20px;padding:7px 16px;cursor:pointer;transition:all .15s;}
+  .chip:hover{color:var(--text);border-color:#3A4A59;}
+  .chip.active{color:#12181F;background:var(--gold);border-color:var(--gold);font-weight:600;}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+  .kpi-row.n5{grid-template-columns:repeat(5,1fr);}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:4px;padding:14px 16px;}
+  .kpi.alt{border-left-color:var(--teal);} .kpi.blue{border-left-color:var(--blue);} .kpi.purple{border-left-color:var(--purple);}
+  .kpi-label{font-size:11.5px;color:var(--text-muted);margin-bottom:8px;}
+  .kpi-value{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:600;}
+  .kpi-delta{font-size:10.5px;font-family:'IBM Plex Mono',monospace;margin-top:5px;}
+  .kpi-delta.up{color:var(--teal);} .kpi-delta.down{color:var(--danger);}
+
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px 20px;}
+  .panel-title{font-size:13.5px;font-weight:600;margin:0 0 2px;}
+  .panel-desc{font-size:11.5px;color:var(--text-faint);margin:0 0 12px;}
+  .chart-box{position:relative;height:230px;}
+  .chart-box.sm{height:170px;}
+
+  .grid-2{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;}
+  .grid-2b{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  thead th{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+  tbody td{padding:7px 10px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:12px;}
+  tbody tr:nth-child(even){background:var(--panel-2);}
+  .matrix-bar{height:6px;background:var(--panel-2);border-radius:4px;overflow:hidden;margin-top:4px;width:100%;}
+  .matrix-bar-fill{height:100%;background:var(--gold);border-radius:4px;}
+
+  .treemap{display:flex;flex-wrap:wrap;gap:4px;}
+  .tm-cell{border-radius:4px;padding:10px 12px;color:#12181F;font-family:'IBM Plex Mono',monospace;height:110px;
+    display:flex;flex-direction:column;justify-content:flex-end;cursor:default;transition:transform .15s;}
+  .tm-cell:hover{transform:scale(1.02);}
+  .tm-cell b{font-size:12px;display:block;} .tm-cell span{font-size:10px;opacity:.85;}
+
+  .abc-bar{display:flex;height:34px;border-radius:4px;overflow:hidden;width:100%;margin-bottom:12px;}
+  .abc-seg{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#12181F;font-weight:600;}
+  .abc-cards{display:flex;gap:10px;}
+  .abc-card{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:4px;padding:9px 12px;}
+  .abc-card .t{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-bottom:3px;}
+  .abc-card .n{font-size:12px;color:var(--text-muted);}
+
+  .donut-wrap{display:flex;align-items:center;gap:16px;}
+  .donut-legend{display:flex;flex-direction:column;gap:8px;}
+  .donut-legend .li{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);}
+  .donut-legend .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+  .gauge-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;}
+  .gauge-value{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:var(--gold);margin-top:-28px;}
+  .gauge-label{font-size:10.5px;color:var(--text-faint);margin-top:2px;}
+
+  .tag-up{color:var(--teal);} .tag-down{color:var(--danger);}
+
+  .week-row{display:flex;gap:10px;align-items:flex-end;height:150px;padding-top:10px;}
+  .week-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+  .week-bar{width:100%;border-radius:3px 3px 0 0;background:var(--teal);}
+  .week-lbl{font-size:10px;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;}
+  .week-val{font-size:10.5px;color:var(--text);font-family:'IBM Plex Mono',monospace;}
+
+  .badge-illustr{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text-faint);border:1px dashed var(--border);padding:2px 7px;border-radius:3px;margin-left:6px;}
+
+  @media (max-width:900px){ .grid-2,.grid-2b,.grid-3{grid-template-columns:1fr;} .kpi-row,.kpi-row.n5{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">PROTÓTIPO DE LAYOUT (MOCKUP) · NÃO É CAPTURA DO POWER BI · PÁGINAS ATÉ A AC3</p>
+    <h1>Referência de layout — páginas até a AC3</h1>
+    <p class="sub">Mockup feito antes da construção, com os dados do projeto, apenas como referência de layout. Não é uma captura de tela do Power BI: o dashboard real está no arquivo .pbix da pasta /powerbi.</p>
+  </header>
+
+  <div class="tabbar" id="tabbar">
+    <button class="tabbtn active" data-page="p1">1 · Visão Geral (AC1)</button>
+    <button class="tabbtn" data-page="p2">2 · Vendedores (AC2)</button>
+    <button class="tabbtn" data-page="p3">3 · Produtos &amp; Margem (AC3)</button>
+  </div>
+
+  <!-- ================= PAGE 1 ================= -->
+  <div class="page active" id="p1">
+    <div class="chip-group" id="chipGroupP1">
+      <button class="chip active">Todos</button>
+      <button class="chip">Diogo Carvalho</button>
+      <button class="chip">Fernando Silva</button>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Valor Vendas</div><div class="kpi-value" id="p1kpiValor">R$ 3.539.134</div></div>
+      <div class="kpi"><div class="kpi-label">Qtd Vendida</div><div class="kpi-value" id="p1kpiQtd">1.119.637</div></div>
+      <div class="kpi alt"><div class="kpi-label">Ticket Médio</div><div class="kpi-value" id="p1kpiTicket">R$ 323</div></div>
+      <div class="kpi alt"><div class="kpi-label">Notas Fiscais</div><div class="kpi-value" id="p1kpiNotas">10.958</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="panel"><div class="panel-title">Valor de Vendas por Mês</div><div class="panel-desc">Medida: Valor Vendas = SUMX(Fato_Vendas, Quantidade × ValorUnitario)</div><div class="chart-box"><canvas id="chartP1Valor"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Quantidade por Mês</div><div class="panel-desc">Medida: SUM(Quantidade)</div><div class="chart-box"><canvas id="chartP1Qtd"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 2 ================= -->
+  <div class="page" id="p2">
+    <div class="grid-2">
+      <div class="panel"><div class="panel-title">Ranking de Vendedores — Valor Vendas</div><div class="panel-desc">Clique em um nome para ver o detalhe mensal</div><div class="chart-box"><canvas id="chartRank"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Matriz Supervisor → Vendedor</div><div class="panel-desc">% de participação na receita total</div>
+        <table><thead><tr><th>Vendedor</th><th>Valor</th></tr></thead><tbody id="matrixBody"></tbody></table>
+      </div>
+    </div>
+    <div class="panel"><div class="panel-title">Detalhe do vendedor selecionado: <span id="selName" style="color:var(--gold);">Julio Lima</span></div><div class="panel-desc">Drill-down: Supervisor → Vendedor → Mês</div><div class="chart-box sm"><canvas id="chartDetail"></canvas></div></div>
+  </div>
+
+  <!-- ================= PAGE 3 ================= -->
+  <div class="page" id="p3">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Valor Vendas</div><div class="kpi-value">R$ 3.539.134</div></div>
+      <div class="kpi blue"><div class="kpi-label">Custo Total</div><div class="kpi-value">R$ 1.996.644</div></div>
+      <div class="kpi alt"><div class="kpi-label">Margem</div><div class="kpi-value">R$ 1.542.491</div></div>
+      <div class="kpi alt"><div class="kpi-label">% Margem</div><div class="kpi-value">43,6%</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:14px;"><div class="panel-title">TreeMap — Valor de Vendas por Grupo de Produto</div><div class="panel-desc">Área proporcional ao valor vendido</div><div class="treemap" id="treemapEl"></div></div>
+    <div class="grid-2b">
+      <div class="panel"><div class="panel-title">Top 10 Produtos por Valor de Vendas</div><div class="panel-desc">Ordenado do maior para o menor</div>
+        <table><thead><tr><th>Produto</th><th>Grupo</th><th>Valor</th></tr></thead><tbody id="top10Body"></tbody></table>
+      </div>
+      <div class="panel"><div class="panel-title">Curva ABC de Produtos</div><div class="panel-desc">Classificação por participação acumulada na receita</div>
+        <div class="abc-bar" id="abcBar"></div><div class="abc-cards" id="abcCards"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const COLORS = {gold:'#D9A441', teal:'#4FB3A6', blue:'#5B8DEF', purple:'#9B8CDA', danger:'#C4604F', muted:'#8C98A5', grid:'rgba(255,255,255,0.06)'};
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+Chart.defaults.font.size = 10;
+Chart.defaults.color = COLORS.muted;
+const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov"];
+
+/* ---------------- PAGE 1 ---------------- */
+const p1series = {
+  "Todos": {valor:[278251.98,223306.83,341232.74,308525.98,321646.66,267304.55,299019.74,322890.84,344006.47,403887.18,429061.5], qtd:[83394,65444,101066,93516,93790,78407,94092,113943,126161,128672,141152], kpis:{v:'R$ 3.539.134', q:'1.119.637', t:'R$ 323', n:'10.958'}},
+  "Diogo Carvalho": {valor:[241709.8,183011.12,295675.75,266533.51,270882.98,226655.18,255955.69,282896.88,298224.26,341456.62,370394.33], qtd:[80377,61931,98457,90962,91143,76201,91401,111879,123041,125253,137941], kpis:{v:'R$ 3.033.396', q:'1.088.586', t:'R$ 322', n:'9.420'}},
+  "Fernando Silva": {valor:[36542.18,40295.71,45556.99,41992.47,50763.68,40649.37,43064.05,39993.96,45782.21,62430.56,58667.17], qtd:[3017,3513,2609,2554,2647,2206,2691,2064,3120,3419,3211], kpis:{v:'R$ 505.738', q:'31.051', t:'R$ 329', n:'1.538'}}
+};
+let chartP1Valor, chartP1Qtd;
+function initP1(){
+  chartP1Valor = new Chart(document.getElementById('chartP1Valor'), {
+    type:'line', data:{labels:meses, datasets:[{data:p1series['Todos'].valor, borderColor:COLORS.gold, backgroundColor:'rgba(217,164,65,0.15)', pointRadius:2, tension:.35, fill:true, borderWidth:2}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'transparent'}}, y:{grid:{color:COLORS.grid}, ticks:{callback:v=>'R$ '+(v/1000).toFixed(0)+'k'}}}}
+  });
+  chartP1Qtd = new Chart(document.getElementById('chartP1Qtd'), {
+    type:'bar', data:{labels:meses, datasets:[{data:p1series['Todos'].qtd, backgroundColor:'rgba(79,179,166,0.55)', borderRadius:2}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'transparent'}}, y:{grid:{color:COLORS.grid}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}}}
+  });
+}
+document.getElementById('chipGroupP1').addEventListener('click', e=>{
+  const btn = e.target.closest('.chip'); if(!btn) return;
+  document.querySelectorAll('#chipGroupP1 .chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active');
+  const sup = btn.textContent.trim();
+  const d = p1series[sup];
+  document.getElementById('p1kpiValor').textContent = d.kpis.v;
+  document.getElementById('p1kpiQtd').textContent = d.kpis.q;
+  document.getElementById('p1kpiTicket').textContent = d.kpis.t;
+  document.getElementById('p1kpiNotas').textContent = d.kpis.n;
+  chartP1Valor.data.datasets[0].data = d.valor;
+  chartP1Valor.data.datasets[0].borderColor = sup==='Fernando Silva'?COLORS.teal:COLORS.gold;
+  chartP1Valor.data.datasets[0].backgroundColor = sup==='Fernando Silva'?'rgba(79,179,166,0.15)':'rgba(217,164,65,0.15)';
+  chartP1Valor.update();
+  chartP1Qtd.data.datasets[0].data = d.qtd;
+  chartP1Qtd.update();
+});
+
+/* ---------------- PAGE 2 ---------------- */
+const ranking = [
+  {vendedor:'Julio Lima', supervisor:'Diogo Carvalho', valor:1661229.91, pct:46.9},
+  {vendedor:'Gustavo Gomes', supervisor:'Diogo Carvalho', valor:1178760.33, pct:33.3},
+  {vendedor:'Kaua Araujo', supervisor:'Fernando Silva', valor:505738.35, pct:14.3},
+  {vendedor:'Estevan Souza', supervisor:'Diogo Carvalho', valor:193405.88, pct:5.5}
+];
+const monthlyVendedor = {
+  "Gustavo Gomes": [107505.23,83484.65,114014.83,98861.67,90839.62,95414.1,98665.83,108948.49,115963.94,140848.93,124213.04],
+  "Estevan Souza": [0,0,0,0,0,0,0,6406.87,36814.62,53392.15,96792.24],
+  "Julio Lima": [134204.57,99526.47,181660.92,167671.84,180043.36,131241.08,157289.86,167541.52,145445.7,147215.54,149389.05],
+  "Kaua Araujo": [36542.18,40295.71,45556.99,41992.47,50763.68,40649.37,43064.05,39993.96,45782.21,62430.56,58667.17]
+};
+function colorFor(sup){ return sup==='Fernando Silva' ? COLORS.teal : COLORS.gold; }
+let chartRank, chartDetail;
+function initP2(){
+  chartRank = new Chart(document.getElementById('chartRank'), {
+    type:'bar', data:{labels: ranking.map(r=>r.vendedor), datasets:[{data: ranking.map(r=>r.valor), backgroundColor: ranking.map(r=>colorFor(r.supervisor)), borderRadius:3}]},
+    options:{indexAxis:'y', responsive:true, maintainAspectRatio:false, onClick:(evt,els)=>{ if(els.length){ selectVendedor(ranking[els[0].index].vendedor); } },
+      plugins:{legend:{display:false}}, scales:{x:{grid:{color:COLORS.grid}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}, y:{grid:{color:'transparent'}}}}
+  });
+  document.getElementById('matrixBody').innerHTML = ranking.map(r=>`
+    <tr style="cursor:pointer;" onclick="selectVendedor('${r.vendedor}')">
+      <td>${r.vendedor}<div style="font-size:10px;color:var(--text-faint);">${r.supervisor}</div><div class="matrix-bar"><div class="matrix-bar-fill" style="width:${r.pct}%; background:${colorFor(r.supervisor)};"></div></div></td>
+      <td>R$ ${Math.round(r.valor).toLocaleString('pt-BR')} <span style="color:var(--text-faint);">(${r.pct}%)</span></td>
+    </tr>`).join('');
+  chartDetail = new Chart(document.getElementById('chartDetail'), {
+    type:'line', data:{labels:meses, datasets:[{data: monthlyVendedor['Julio Lima'], borderColor:COLORS.gold, backgroundColor:'rgba(217,164,65,0.15)', pointRadius:2, tension:.3, fill:true, borderWidth:2}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'transparent'}}, y:{grid:{color:COLORS.grid}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}}}
+  });
+}
+function selectVendedor(nome){
+  const info = ranking.find(r=>r.vendedor===nome);
+  document.getElementById('selName').textContent = nome;
+  document.getElementById('selName').style.color = colorFor(info.supervisor);
+  chartDetail.data.datasets[0].data = monthlyVendedor[nome];
+  chartDetail.data.datasets[0].borderColor = colorFor(info.supervisor);
+  chartDetail.data.datasets[0].backgroundColor = info.supervisor==='Fernando Silva' ? 'rgba(79,179,166,0.15)' : 'rgba(217,164,65,0.15)';
+  chartDetail.update();
+}
+
+/* ---------------- PAGE 3 ---------------- */
+const grupos = [
+  {grupo:'Farinhas de Trigo', valor:705880.01},{grupo:'Cachaça', valor:560016.07},{grupo:'Fermentos', valor:469751.37},
+  {grupo:'Óleos', valor:353082.31},{grupo:'Farinhas', valor:331505.02},{grupo:'Farofas', valor:174731.51},
+  {grupo:'Azeites', valor:138583.33},{grupo:'Outros grupos', valor:3539134.47-(705880.01+560016.07+469751.37+353082.31+331505.02+174731.51+138583.33)}
+];
+const top10 = [
+  {produto:'Produto 1968', grupo:'Farinhas de Trigo', valor:136035.09},{produto:'Produto 2392', grupo:'Cachaça', valor:129161.09},
+  {produto:'Produto 662', grupo:'Farinhas', valor:89802.08},{produto:'Produto 845', grupo:'Farinhas', valor:70748.04},
+  {produto:'Produto 2445', grupo:'Farinhas de Trigo', valor:70126.56},{produto:'Produto 2103', grupo:'Cachaça', valor:61170.42},
+  {produto:'Produto 2233', grupo:'Óleos', valor:52332.00},{produto:'Produto 2098', grupo:'Farinhas', valor:50737.20},
+  {produto:'Produto 235', grupo:'Farinhas de Trigo', valor:44703.00},{produto:'Produto 1839', grupo:'Farofas', valor:42265.35}
+];
+const abc = [{classe:'A', numProdutos:142, pctValor:79.8, color:COLORS.gold},{classe:'B', numProdutos:146, pctValor:15.1, color:COLORS.teal},{classe:'C', numProdutos:340, pctValor:5.0, color:'#3A4A59'}];
+const palette = ['#D9A441','#c99a4a','#b98f52','#a9855a','#997a61','#896f68','#79656f','#5C6874'];
+function initP3(){
+  const total = grupos.reduce((s,g)=>s+g.valor,0);
+  document.getElementById('treemapEl').innerHTML = grupos.map((g,i)=>{
+    const pct = g.valor/total*100;
+    return `<div class="tm-cell" style="flex:${g.valor} 1 auto; min-width:100px; background:${palette[i]};"><b>${g.grupo}</b><span>R$ ${(g.valor/1000).toFixed(0)}k · ${pct.toFixed(1)}%</span></div>`;
+  }).join('');
+  document.getElementById('top10Body').innerHTML = top10.map(p=>`<tr><td>${p.produto}</td><td>${p.grupo}</td><td>R$ ${p.valor.toLocaleString('pt-BR',{maximumFractionDigits:0})}</td></tr>`).join('');
+  document.getElementById('abcBar').innerHTML = abc.map(a=>`<div class="abc-seg" style="flex-basis:${a.pctValor}%; background:${a.color};">${a.classe}</div>`).join('');
+  document.getElementById('abcCards').innerHTML = abc.map(a=>`<div class="abc-card"><div class="t" style="color:${a.color};">CLASSE ${a.classe}</div><div class="n">${a.numProdutos} produtos · ${a.pctValor}%</div></div>`).join('');
+}
+
+/* ---------------- TABS ---------------- */
+document.getElementById('tabbar').addEventListener('click', e=>{
+  const btn = e.target.closest('.tabbtn'); if(!btn) return;
+  document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  const page = btn.dataset.page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id===page));
+});
+
+initP1(); initP2(); initP3();
+</script>
+</body>
+</html>
