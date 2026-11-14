@@ -14,20 +14,21 @@ O projeto segue uma abordagem de desenvolvimento progressivo, dividido em 4 entr
 | **AC1** | 14/09 | Modelo de Dados e Dashboard "Visão Geral" | ✅ **Concluído** |
 | **AC2** | 13/10 | Visão detalhada de Vendedores | ✅ **Concluído** |
 | **AC3** | 08/11 | Análise de Produtos e Lucratividade | ✅ **Concluído** |
-| **Final**| 22/11 | Painel Consolidado Completo | ⏳ A desenvolver |
+| **Final** | 22/11 | Painel Consolidado Completo | ✅ **Concluído** |
 
-## 🔗 Links de Entrega (AC1, AC2 e AC3)
+## 🔗 Links de Entrega (AC1, AC2, AC3 e Final)
 
 * **Quadro Kanban (Trello):** [https://trello.com/b/SlIi1beO/projeto-power-bi-analise-de-vendas-2026]
 * **Vídeo de Apresentação (AC1):** [https://youtu.be/AXUBUhVzsr0]
 * **Vídeo de Apresentação (AC2):** [https://www.youtube.com/watch?v=iFOm7n1S6bU]
 * **Vídeo de Apresentação (AC3):** [https://www.youtube.com/watch?v=t_1ykKSvHPg]
+* **Vídeo de Apresentação (Final):** [https://youtu.be/y2K57QMKA7Y]
 
-## 📁 Estrutura do Repositório (Fase AC3)
+## 📁 Estrutura do Repositório (Fase Final)
 
 * `/data` -> Arquivos de origem (Planilhas Excel).
-* `/powerbi` -> Contém o arquivo `.pbix` do Dashboard e a documentação das medidas `DAX` criadas nesta Sprint.
-* `/docs` -> Capturas de tela (prints) evidenciando as funcionalidades entregues.
+* `/powerbi` -> Contém o arquivo `.pbix` do Dashboard (versão acumulada) e a documentação das medidas `DAX` criadas até esta Sprint.
+* `/docs` -> Capturas de tela (prints) evidenciando as funcionalidades entregues, organizadas por entrega.
 
 ## ⚙️ Como visualizar o projeto localmente
 
